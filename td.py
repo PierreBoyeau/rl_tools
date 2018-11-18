@@ -7,6 +7,12 @@ import numpy as np
 
 class MCPolicyEvaluation:
     def __init__(self, policy, env, mu_0, discount):
+        """
+        :param policy: policy to evaluate using MC Evaluation
+        :param env: object with method step(state, action) that must return state, reward, done
+        :param mu_0: initial state
+        :param discount: Discount rate
+        """
         self.policy = policy
         self.env = env
         self.mu_0 = mu_0
@@ -16,11 +22,6 @@ class MCPolicyEvaluation:
         self.V = None
 
     def evaluate(self, n_episodes, t_max):
-        """
-
-        :param n_episodes:
-        :return:
-        """
         for ep in range(n_episodes):
             initial_state = np.random.choice(np.arange(len(self.mu_0)), replace=True, p=self.mu_0)
             state = initial_state
@@ -69,13 +70,13 @@ class DiscreteTD:
         Because it is much more easier to work with Q represented as a matrix,
         we will do it but be sensible to the fact that not all actions are accessible from
         one state.
-        :param env:
-        :param mu_0:
-        :param discount:
-        :param eps:
-        :param n_states:
-        :param n_actions:
-        :param lr_power:
+        :param env: object with method step(state, action) that must return state, reward, done
+        :param mu_0: Initial state distribution chosen
+        :param discount: Discount rate
+        :param eps: epsilon parameter of eps-greedy policy
+        :param n_states: number of states
+        :param n_actions: number of actions
+        :param lr_power: gamma parameter of the learning rate lr(x, a) = 1 / counts(x, a)**gamma
         """
         self.discount = discount
         self.eps = eps
